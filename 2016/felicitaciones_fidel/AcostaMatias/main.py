@@ -13,5 +13,6 @@ def main():
                 letra_actual = 'R'
                 count_dr += 1
     print(count_dr)
+    
 if __name__ == "__main__":
     main()
