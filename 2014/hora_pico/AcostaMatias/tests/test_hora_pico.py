@@ -1,5 +1,5 @@
 import unittest
-from  import main.get_cant_turnos
+from hora_pico import get_cant_turnos
 
 class TestHoraPico(unittest.TestCase):
     """
