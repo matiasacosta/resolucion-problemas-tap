@@ -1,4 +1,5 @@
 import re
+from Grafo import Grafo
 
 class Caja:
 
@@ -11,19 +12,23 @@ class Caja:
         que la caja este parada
         """
         self.grilla = grilla
-        self.posicion_actual = self.get_posicion_inicial()
+        self.posicion_actual = self.get_posicion('C')
         self.camino = ''
+        self.grafo = Grafo()
 
-    def get_posicion_inicial(self):
+    def get_posicion(self, tipo='C'):
         """
-        Se establece la posicion inicial
+        Se establece la posicion solicitada, puede ser: 
+        - C para la inicial
+        - E para el final
         """
-        # La posicion inicial de la caja se representa con la C
+        a_buscar = f'.*{tipo}.*'
         for i in range(len(self.grilla)):
-            match_obj = re.search(r'.*C.*',self.grilla[i])
+            match_obj = re.search(a_buscar,self.grilla[i])
             if match_obj:
-                j = self.grilla[i].index('C')
+                j = self.grilla[i].index(tipo)
                 return (i, j, '-', '-')
+
 
     def get_orientacion(self):
         """
@@ -193,4 +198,5 @@ class Caja:
         else:
             return False
 
-        
+    def descubrir_caminos(self):
+        pass
