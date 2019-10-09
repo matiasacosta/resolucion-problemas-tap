@@ -205,9 +205,24 @@ class Caja:
             return False
 
     def descubrir_caminos(self, posicion, vertices):
+        if not vertices: #primer llamada
+            vertices.append(posicion)
+            self.grafo.agregar_vertice(posicion)
         for movimiento in ['U', 'D', 'L', 'R']:
             nueva_posicion = self.moverse(movimiento, posicion)
-            if nueva_posicion and nueva_posicion not in vertices:
-                vertices.append(nueva_posicion)
-                self.descubrir_caminos(nueva_posicion, vertices)
+            if nueva_posicion:
+                if nueva_posicion not in vertices:
+                    vertices.append(nueva_posicion)
+                    self.grafo.agregar_vertice(nueva_posicion)
+                    # Agregamos las aristas de ida y vuelta
+                    self.grafo.agregar_arista(posicion, nueva_posicion, costo=1)
+                    self.grafo.agregar_arista(nueva_posicion, posicion, costo=1)
+                    #fin del agregado de aristas    
+                    self.descubrir_caminos(nueva_posicion, vertices)
+                else:
+                    # Agregamos las aristas de ida y vuelta
+                    self.grafo.agregar_arista(posicion, nueva_posicion, costo=1)
+                    self.grafo.agregar_arista(nueva_posicion, posicion, costo=1)
+                    #fin del agregado de aristas    
+                
         return vertices
