@@ -30,18 +30,19 @@ class Caja:
                 return (i, j, '-', '-')
 
 
-    def get_orientacion(self):
+    def get_orientacion(self, posicion=None):
         """
         funcion que retorna si la caja esta parada o acostada
         """
-        if self.posicion_actual[2] == '-' and self.posicion_actual[3] == '-':
+        if not posicion: posicion=self.posicion_actual
+        if posicion[2] == '-' and posicion[3] == '-':
             return "Parada"
-        elif self.posicion_actual[0] == self.posicion_actual[2]:
+        elif posicion[0] == posicion[2]:
             return "Horizontal"
-        elif self.posicion_actual[1] == self.posicion_actual[3]:
+        elif posicion[1] == posicion[3]:
             return "Vertical"
         else:
-            return -1
+            return False
 
     def movimiento_valido(self, posicion_final):
         """
@@ -63,26 +64,27 @@ class Caja:
         except IndexError: # Se pregunta por un lugar fuera del tablero
             return False
 
-    def moverse_arriba(self):
-        orientacion = self.get_orientacion()
+    def moverse_arriba(self, posicion=None):
+        orientacion = self.get_orientacion(posicion)
+        if not posicion: posicion = self.posicion_actual
         if orientacion == 'Parada':
             nueva_posicion = (
-                self.posicion_actual[0]-2,
-                self.posicion_actual[1],
-                self.posicion_actual[0]-1,
-                self.posicion_actual[1]
+                posicion[0]-2,
+                posicion[1],
+                posicion[0]-1,
+                posicion[1]
             )
         elif orientacion == 'Horizontal':
             nueva_posicion = (
-                self.posicion_actual[0]-1,
-                self.posicion_actual[1],
-                self.posicion_actual[2]-1,
-                self.posicion_actual[3],
+                posicion[0]-1,
+                posicion[1],
+                posicion[2]-1,
+                posicion[3],
             )
         elif orientacion == 'Vertical':
             nueva_posicion = (
-                self.posicion_actual[0]-1,
-                self.posicion_actual[1],
+                posicion[0]-1,
+                posicion[1],
                 '-',
                 '-'
             )
@@ -91,26 +93,27 @@ class Caja:
         else:
             return False
 
-    def moverse_abajo(self):
-        orientacion = self.get_orientacion()
+    def moverse_abajo(self, posicion=None):
+        orientacion = self.get_orientacion(posicion)
+        if not posicion: posicion=self.posicion_actual
         if orientacion == 'Parada':
             nueva_posicion = (
-                self.posicion_actual[0]+1,
-                self.posicion_actual[1],
-                self.posicion_actual[0]+2,
-                self.posicion_actual[1]
+                posicion[0]+1,
+                posicion[1],
+                posicion[0]+2,
+                posicion[1]
             )
         elif orientacion == 'Horizontal':
             nueva_posicion = (
-                self.posicion_actual[0]+1,
-                self.posicion_actual[1],
-                self.posicion_actual[2]+1,
-                self.posicion_actual[3],
+                posicion[0]+1,
+                posicion[1],
+                posicion[2]+1,
+                posicion[3],
             )
         elif orientacion == 'Vertical':
             nueva_posicion = (
-                self.posicion_actual[0]+2,
-                self.posicion_actual[1],
+                posicion[0]+2,
+                posicion[1],
                 '-',
                 '-'
             )
@@ -119,63 +122,65 @@ class Caja:
         else:
             return False
 
-    def moverse_izquierda(self):
-        orientacion = self.get_orientacion()
+    def moverse_izquierda(self, posicion=None):
+        orientacion = self.get_orientacion(posicion)
+        if not posicion: posicion=self.posicion_actual
         if orientacion == 'Parada':
             nueva_posicion = (
-                self.posicion_actual[0],
-                self.posicion_actual[1]-2,
-                self.posicion_actual[0],
-                self.posicion_actual[1]-1
+                posicion[0],
+                posicion[1]-2,
+                posicion[0],
+                posicion[1]-1
             )
         elif orientacion == 'Horizontal':
             nueva_posicion = (
-                self.posicion_actual[0],
-                self.posicion_actual[1]-1,
+                posicion[0],
+                posicion[1]-1,
                 '-',
                 '-'
             )
         elif orientacion == 'Vertical':
             nueva_posicion = (
-                self.posicion_actual[0],
-                self.posicion_actual[1]-1,
-                self.posicion_actual[2],
-                self.posicion_actual[3]-1
+                posicion[0],
+                posicion[1]-1,
+                posicion[2],
+                posicion[3]-1
             )
         if self.movimiento_valido(nueva_posicion):
             return nueva_posicion
         else:
             return False
 
-    def moverse_derecha(self):
-        orientacion = self.get_orientacion()
+    def moverse_derecha(self, posicion=None):
+        orientacion = self.get_orientacion(posicion)
+        if not posicion: posicion=self.posicion_actual
         if orientacion == 'Parada':
             nueva_posicion = (
-                self.posicion_actual[0],
-                self.posicion_actual[1]+1,
-                self.posicion_actual[0],
-                self.posicion_actual[1]+2
+                posicion[0],
+                posicion[1]+1,
+                posicion[0],
+                posicion[1]+2
             )
         elif orientacion == 'Horizontal':
             nueva_posicion = (
-                self.posicion_actual[0],
-                self.posicion_actual[1]+2,
+                posicion[0],
+                posicion[1]+2,
                 '-',
                 '-'
             )
         elif orientacion == 'Vertical':
             nueva_posicion = (
-                self.posicion_actual[0],
-                self.posicion_actual[1]+1,
-                self.posicion_actual[2],
-                self.posicion_actual[3]+1
+                posicion[0],
+                posicion[1]+1,
+                posicion[2],
+                posicion[3]+1
             )
         if self.movimiento_valido(nueva_posicion):
             return nueva_posicion
         else:
             return False
 
-    def moverse(self, movimiento):
+    def moverse(self, movimiento, posicion=None):
         """
         Los valores posibles del movimiento son:
         - U(up)
@@ -183,20 +188,26 @@ class Caja:
         - L(left)
         - R(right)
         """
+        if not posicion: posicion=self.posicion_actual
         if movimiento == 'U':
-            resultado = self.moverse_arriba()
+            resultado = self.moverse_arriba(posicion)
         elif movimiento == 'D':
-            resultado = self.moverse_abajo()
+            resultado = self.moverse_abajo(posicion)
         elif movimiento == 'L':
-            resultado = self.moverse_izquierda()
+            resultado = self.moverse_izquierda(posicion)
         elif movimiento == 'R':
-            resultado = self.moverse_derecha()
+            resultado = self.moverse_derecha(posicion)
         if resultado:
             self.camino = self.camino + movimiento
             self.posicion_actual = resultado
-            return True
+            return resultado
         else:
             return False
 
-    def descubrir_caminos(self):
-        pass
+    def descubrir_caminos(self, posicion, vertices):
+        for movimiento in ['U', 'D', 'L', 'R']:
+            nueva_posicion = self.moverse(movimiento, posicion)
+            if nueva_posicion and nueva_posicion not in vertices:
+                vertices.append(nueva_posicion)
+                self.descubrir_caminos(nueva_posicion, vertices)
+        return vertices
