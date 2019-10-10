@@ -1,4 +1,5 @@
 from Vertice import Vertice
+from collections import deque
 
 class Grafo:
     def __init__(self):
@@ -26,3 +27,35 @@ class Grafo:
 
     def __iter__(self):
         return iter(self.vertices.values())
+
+    def dijkstra(self, origen, destino):
+        
+        distancias = {vertice: 1000 for vertice in self.obtener_vertices()}
+        vertices_previos = {
+            vertice: None for vertice in self.obtener_vertices()
+        }
+        distancias[origen] = 0
+        vertices = list(self.obtener_vertices()).copy()
+
+        while vertices:
+            vertice_actual = min(vertices, key=lambda vertice: distancias[vertice])
+
+            if distancias[vertice_actual] == 1000:
+                break
+
+            for vecino, costo in self.obtener_vertice(vertice_actual).conectado_a.items():
+                ruta_alternativa = distancias[vertice_actual] + costo
+                
+                if ruta_alternativa < distancias[vecino.id]:
+                    distancias[vecino.id] = ruta_alternativa
+                    vertices_previos[vecino.id] = vertice_actual
+
+            vertices.remove(vertice_actual)
+
+        path, vertice_actual = deque(), destino
+        while vertices_previos[vertice_actual] is not None:
+            path.appendleft(vertice_actual)
+            vertice_actual = vertices_previos[vertice_actual]
+        if path:
+            path.appendleft(vertice_actual)
+        return path
