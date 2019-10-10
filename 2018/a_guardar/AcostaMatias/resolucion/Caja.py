@@ -1,6 +1,21 @@
 import re
 from Grafo import Grafo
 
+def resolucion(grilla):
+    caja = Caja(grilla)
+    vertices = []
+    caja.descubrir_caminos(caja.posicion_actual, vertices)
+    if caja.get_posicion('E') not in vertices:
+        return False
+    else:
+        camino = caja.grafo.dijkstra(
+            caja.get_posicion('C'),
+            caja.get_posicion('E')
+        )
+        camino = caja.get_camino(camino)
+        return camino 
+
+
 class Caja:
 
     def __init__(self, grilla):
@@ -226,3 +241,20 @@ class Caja:
                     #fin del agregado de aristas    
                 
         return vertices
+
+    def get_movimiento(self, posicion_inicio, posicion_fin):
+        if posicion_inicio[0] > posicion_fin[0]:
+            return 'U'
+        elif posicion_inicio[0] < posicion_fin[0]:
+            return 'D'
+        elif posicion_inicio[1] > posicion_fin[1]:
+            return 'L'
+        elif posicion_inicio[1] < posicion_fin[1]:
+            return 'R'
+
+    def get_camino(self, lista_posiciones):
+        camino = ''
+        for i in range(len(lista_posiciones) -1):
+            movimiento = self.get_movimiento(lista_posiciones[i],lista_posiciones[i+1])
+            camino += movimiento
+        return camino
