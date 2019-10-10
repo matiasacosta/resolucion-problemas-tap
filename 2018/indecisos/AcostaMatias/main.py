@@ -1,7 +1,7 @@
 if __name__ == "__main__":
-    cantidad_legisladores = input()
+    cantidad_legisladores = int(input())
     legisladores = input()
-    contadores = []
+    contadores = [0,0,0]
     for c in legisladores:
         if c == 'P':
             contadores[0] += 1
@@ -14,5 +14,5 @@ if __name__ == "__main__":
         print("SI")
     elif contadores[0] > cantidad_legisladores / 2:
         print("NO")
-    elif contadores[0] >= cantidad_legisladores / 2:
+    else:
         print("INDECISOS")
