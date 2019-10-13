@@ -1,4 +1,4 @@
-from Vertice import Vertice
+from resolucion.Vertice import Vertice
 from collections import deque
 
 class Grafo:

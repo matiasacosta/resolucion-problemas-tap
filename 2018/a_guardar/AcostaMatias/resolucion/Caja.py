@@ -1,5 +1,5 @@
 import re
-from Grafo import Grafo
+from resolucion.Grafo import Grafo
 
 def resolucion(grilla):
     caja = Caja(grilla)

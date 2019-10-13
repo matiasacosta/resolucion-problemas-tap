@@ -1,4 +1,4 @@
-from Caja import Caja, resolucion
+from resolucion.Caja import Caja, resolucion
 
 if __name__ == "__main__":
     # Controlamos la entrada de datos
