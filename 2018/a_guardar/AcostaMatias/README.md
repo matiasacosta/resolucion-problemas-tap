@@ -1,0 +1,2 @@
+- Correr tests con `python -m unittest`
+- Correr aplicación con `python -m resolucion`
