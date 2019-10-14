@@ -16,7 +16,7 @@ class TestAGuardar(unittest.TestCase):
     def test_a_guardar(self):
         # Test 1
         camino = resolucion(["#.##", "..##", "..##", ".E.C"])
-        self.assertEqual(len(camino), 4)
+        self.assertEqual(len(camino), 5)
         self.assertEqual(camino, 'LLURD')
         # Test 2
         camino = resolucion(["........", "..C..E..", "........", "........"])
